@@ -1,0 +1,29 @@
+{
+  "name": "livef",
+  "version": "1.0.0",
+  "description": "live function",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uznam8x/livef.git"
+  },
+  "keywords": [
+    "live scratchpad for javascript",
+    "funcational programming",
+    "uznam8x",
+    "prisf"
+  ],
+  "author": "uznam8x",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/uznam8x/livef/issues"
+  },
+  "homepage": "https://github.com/uznam8x/livef#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "nodemon": "^2.0.2"
+  }
+}

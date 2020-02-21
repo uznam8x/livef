@@ -1,28 +1,44 @@
-const curry = (fn, ...args) => {
-    return (fn.length <= args.length)
-    ? fn(...args)
-    : (...more) => curry(fn, ...args, ...more)
-}
-const livef = {
-    register:(...fns)=>{
-        return fns.map( f => curry(f));
+console.clear();
+import async from "async";
+import * as R from "ramda";
+const Debug = {
+    log(message, done){
+        console.log(message);
+        done(null, message + Math.random());
     },
-    run:(...fns) => {
-        fns.forEach( f => {
-            f[0].apply(null,f[1]);
-        } );
-    }
 }
 
+const pipe = (...fns) => x => {
+    const perf = [];
+    const task = fns.map( (v, i) => (...args) => {
+        perf[i] = {id:i, name:v.name, start:Date.now(), end: 0};
+        const done = args.pop();
+        v(...args, (err, ans)=>{
+            perf[i].end = Date.now();
+            done(err, ans);
+        });
+    } );
 
+    const arr = [(done) => {
+        done(null, x);
+    }, ...task];
 
+    const done = (err, ans) => {
+        const res = perf.map(v => ({
+            name: v.name,
+            performance: v.end - v.start
+        }));
+        res.push( res.reduce((a,b) => {
+            a.name = 'total';
+            a.performance = (a.performance || 0 ) + b.performance;
+            return a;
+        }, {}) );
+        return res;
+    }
+    async.waterfall.call(null, arr, done);
+}
 
-const sum = (a,b)=>{
-    console.log(a,b);
-};
-
-livef.run([
-    sum, [1,2]
-])
-
-module.exports = livef;
+pipe(
+    Debug.log,
+    Debug.log,
+)("hello");

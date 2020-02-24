@@ -1,2 +1,2 @@
-# livef
-live function
+# Livef
+flow-based live function programming for javascript

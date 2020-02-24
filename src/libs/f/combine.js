@@ -1,8 +1,9 @@
-import { curry } from "ramda";
-const combine = (fn, args, done) => {
-    
-    fn((err, ans) => {
-        done(err, [args, ans])
-    });
+import { curry, curryN } from "ramda";
+import * as F from "./index";
+const combine = (tasks, args, done) => {
+    F.serial([
+        done => done(null, args),
+        ...tasks
+    ], done);
 };
 export default curry(combine);

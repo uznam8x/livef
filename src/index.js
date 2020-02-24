@@ -33,23 +33,25 @@ const entry = ( args ) => done => {
 
 F.serial([
     DOM.querySelector("#app"),
-    
     (args, done) => {
-        F.serial([
-            DOM.createElement("div"),
-            DOM.addClass(['container']),
+        F.parallel([
+            F.serial([
+                DOM.createElement("div"),
+                DOM.setAttributes({class:"test"}),
+            ]),
+            F.serial([
+                DOM.createElement("div"),
+                DOM.setAttributes({class:"asdf"}),
+            ]),
         ], (err, ans)=>{
-            DOM.appendChild(ans, args, done);
-        })
+            done(err, ans, args);
+        });
     },
-    (args, done) => {
-        F.serial([
-            DOM.createElement("div"),
-            DOM.addClass(['row']),
-        ], (err, ans)=>{
-            DOM.appendChild(ans, args, done);
-        })
-    },
+    (nodes, parent, done) => {
+        F.parallel(R.map( v => next => {
+            DOM.appendChild(v, parent, next);
+        })(nodes), done);
+    }
 ], (err, ans) => {
     console.log(ans);
 });

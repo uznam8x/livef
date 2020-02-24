@@ -7,3 +7,4 @@ export {default as innerHTML} from "./innerHTML";
 export {default as onClick} from "./onClick";
 export {default as currentTarget} from "./currentTarget";
 export {default as addClass} from "./addClass";
+export {default as create} from "./addClass";

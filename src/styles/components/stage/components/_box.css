@@ -1,0 +1,23 @@
+.box {
+  cursor: grab;
+}
+.box__background {
+  fill: #007bff;
+}
+.box__subject,
+.box__description {
+  display: block;
+  fill: white;
+}
+.box__subject {
+  font-size: 20px;
+}
+.box__description {
+  font-size: 16px;
+}
+.box__point {
+  cursor: move;
+  fill: white;
+  stroke: black;
+  stroke-width: 2;
+}

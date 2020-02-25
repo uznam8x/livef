@@ -4,6 +4,8 @@ import * as DOM from "./libs/dom";
 import * as F from "./libs/f";
 import * as CS from "./libs/console";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./styles/index.scss";
+import "./scripts/stage/index";
 /*F.serial(
     [
         DOM.loaded,
@@ -26,7 +28,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
         DOM.appendChild
     ]
 )();*/
-
+/*
 const entry = ( args ) => done => {
     done(null, args);
 }
@@ -55,7 +57,7 @@ F.serial([
 ], (err, ans) => {
     console.log(ans);
 });
-/*
+
 F.parallel([
     DOM.querySelector("#app"),
     F.serial([

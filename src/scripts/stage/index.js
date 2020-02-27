@@ -1,6 +1,9 @@
 import * as d3 from "d3";
 import * as R from "ramda";
+import Store from "./store";
 import Box from "./components/box";
+import Liner from "./components/liner";
+
 // stage
 const stage = d3.select("#stage").append("svg");
 stage.attr("width", "100%").attr("height", "100%");
@@ -45,13 +48,14 @@ const graph = [
     },
     {
         id:"d",
-        x: 30,
+        x: 600,
         y: 270,
         subject: "Subject",
         description: "common",
         connect:[],
     },
 ];
+
 
 const data = R.map( v => {
     v.connect = R.map( m => {
@@ -64,14 +68,11 @@ const data = R.map( v => {
     })(v.connect);
     return v;
 } )(graph);
-console.log(data);
 
+stage.store = new Store(stage);
 
 R.forEach( v => {
     const box = new Box(stage);
-    box.setPosition(v.x, v.y);
-    box.setConnect(v.connect);
-    box.setSubject(v.subject);
-    box.setDescription(v.description);
+    box.init(v);
     //box.attr("transform", `translate(${v.x}, ${v.y})`);
 })(data);

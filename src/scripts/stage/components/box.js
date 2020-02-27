@@ -38,10 +38,19 @@ const createPoint = (g) => {
     return point;
 }
 
+const uuid = ()=>{
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+        var r = (+new Date() + Math.random() * 16 ) % 16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+    })
+};
 
 class Box {
-    constructor(stage) {
+    constructor(stage, liner) {
+        this.id = uuid();
+        this.data = {};
         this.stage = stage;
+        this.liner = liner;
         this.connect = [];
 
         this.position = {
@@ -49,8 +58,23 @@ class Box {
             y: 0
         }
 
+        let drag = {
+            x: 0,
+            y: 0,
+        }
+        let point = {};
         this.box = createBox(stage);
-
+        this.box.call(d3.drag()
+        .on("start", v => {
+            drag = d3.event;
+            point = this.position;
+        }).on("drag", (v)=> {
+            this.setPosition(
+                (d3.event.x - drag.x) + point.x,
+                (d3.event.y - drag.y) + point.y
+            );
+            this.render();
+        }).on("end", v => {}));
         this.background = createBackground(this.box);
 
         this.container = createContainer(this.box);
@@ -62,22 +86,29 @@ class Box {
         this.out.classed("box__point--out", true);
 
         this.render = this.render.bind(this);
+    }
+
+    init( data ){
+        this.data = data;
+        if(data.id) this.id = data.id;
+        if(data.x && data.y) this.setPosition(data.x, data.y);
+        if(data.subject) this.setSubject(data.subject);
+        if(data.description) this.setDescription(data.description);
+        
+        this.box.attr("data-box-id", this.id);
         setTimeout(this.render, 500);
     }
 
     setPosition(x, y){
         this.position = {x,y};
         this.box.attr("transform", `translate(${x}, ${y})`);
+        
     }
     setConnect( arr ){
-        /*arr.forEach(v => {
-            const line = this.box.append("path");
-            const point = [ { x: this.position.x, y: this.position.y }, ...arr ];
-            line.attr("d", createPath(point));
-            line.attr("stroke-width", 3)
-                .attr("stroke", "#000")
-        });*/
-        
+        arr.forEach(v => {
+            const point = [ {id: this.id, x: this.position.x, y: this.position.y }, ...arr ];
+            this.stage.store.liner.create( point );
+        });
     }
 
     setSubject( str ){
@@ -100,7 +131,9 @@ class Box {
             .attr("transform", `translate(0, ${h / 2})`)
 
         this.out
-            .attr("transform", `translate(${w}, ${h / 2})`)
+            .attr("transform", `translate(${w}, ${h / 2})`);
+
+        this.setConnect(this.data.connect);
     }
 }
 /*

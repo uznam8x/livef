@@ -1,8 +1,9 @@
 import { combineReducers } from "redux";
-import boxes from "./modules/boxes";
+import * as Boxes from "./modules/boxes";
+
 export type RootState = {
-    boxes: any;
+    boxes: Boxes.IState;
 }
-export default combineReducers({
-    boxes
+export default combineReducers<RootState>({
+    boxes: Boxes.default
 });

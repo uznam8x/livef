@@ -18,20 +18,26 @@ class Stage extends React.Component<Props, State> {
         id: "a",
         x: 20,
         y: 10,
-        w: 0,
-        h: 0,
-        connect: [
-            {id:"b"}
-        ],
+        connect: [{ id: "b" }, {id: "c"}],
       },
       {
-          id: "b",
+        id: "b",
         x: 400,
         y: 200,
-        w: 0,
-        h: 0,
-        connect: [],
-      }
+        connect: []
+      },
+      {
+        id: "c",
+        x: 400,
+        y: 400,
+        connect: [{id:'d'}]
+      },
+      {
+        id: "d",
+        x: 600,
+        y: 600,
+        connect: []
+      },
     ];
     this.state.boxes = boxes;
   }
@@ -39,7 +45,7 @@ class Stage extends React.Component<Props, State> {
     return (
       <svg className="stage">
         <g>
-            <Line></Line>
+          <Line></Line>
           <g>
             {this.state.boxes.map((v, i) => (
               <Box item={v} key={i}></Box>

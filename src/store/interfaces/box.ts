@@ -3,7 +3,8 @@ export interface IBox {
     id: string,
     x: number,
     y: number,
-    
+    subject: string,
+    description: string,
 }
 
 export interface IBoxBound extends IBox {
@@ -11,8 +12,8 @@ export interface IBoxBound extends IBox {
         x: number,
         y: number,
     },
-    width?: number | 0,
-    height?: number | 0,
+    width: number | 0,
+    height: number | 0,
     ref?: RefObject<SVGGElement>
 }
 

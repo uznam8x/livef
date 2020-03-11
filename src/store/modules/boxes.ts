@@ -6,19 +6,19 @@ export interface IState  {
     };
 }
 
-export const initialState: IState = {
+const initialState: IState = {
     indexed: {}
 }
 
 
-export default (state: IState = initialState, action: ABoxRegister) => {
+export default function boxes(state: IState = initialState, action: ABoxRegister) {
     switch (action.type){
         case TBox.REGISTER:
             const payload = {
                 [action.payload.id]:action.payload
             }
             return {
-                indexed: Object.assign(state.indexed, payload)
+                indexed: Object.assign({}, state.indexed, payload)
             }
         default:
             return state;

@@ -1,53 +1,29 @@
 import React from "react";
+import { connect } from "react-redux";
 import Box from "./Box";
 import Line from "./Line";
-type Props = {};
-type State = {
-  boxes: Array<any>;
+import { RootState } from "../store";
+import { IConnection } from "../store/interfaces/connection";
+import { getPointsToPath } from "../libs/bezier";
+interface IProps {
+  items: Array<any>;
+  connection?: any;
+};
+interface IState {
 };
 
-class Stage extends React.Component<Props, State> {
-  state: State = {
-    boxes: []
-  };
-  constructor(props: Props) {
+class Stage extends React.Component<IProps, IState> {
+  constructor(props:IProps){
     super(props);
-
-    const boxes = [
-      {
-        id: "a",
-        x: 20,
-        y: 10,
-        connect: [{ id: "b" }, {id: "c"}],
-      },
-      {
-        id: "b",
-        x: 400,
-        y: 200,
-        connect: []
-      },
-      {
-        id: "c",
-        x: 400,
-        y: 400,
-        connect: [{id:'d'}]
-      },
-      {
-        id: "d",
-        x: 600,
-        y: 600,
-        connect: []
-      },
-    ];
-    this.state.boxes = boxes;
   }
   render() {
     return (
       <svg className="stage">
         <g>
+          <path className="connection" d={getPointsToPath(this.props.connection.from, this.props.connection.to)}></path>
           <Line></Line>
           <g>
-            {this.state.boxes.map((v, i) => (
+            {this.props.items.map((v, i) => (
               <Box item={v} key={i}></Box>
             ))}
           </g>
@@ -56,4 +32,6 @@ class Stage extends React.Component<Props, State> {
     );
   }
 }
-export default Stage;
+export default connect((state:RootState) => {
+  return Object.assign({}, state);
+})(Stage);

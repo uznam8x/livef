@@ -2,7 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { register } from "../store/actions/box";
 import { IBoxConnect } from "../store/interfaces/box";
-import Draggable from "react-draggable";
+import BoxConnector from "./BoxConnector";
+import Draggable, {DraggableEvent, DraggableData} from "react-draggable";
 interface IProps {
   item: any;
   register: any;
@@ -12,6 +13,7 @@ interface IState {
   config: any;
   item: IBoxConnect;
 }
+
 
 class Box extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -42,12 +44,17 @@ class Box extends React.Component<IProps, IState> {
     this.setState({ item: v });
     this.props.register(v);
   }
+
   componentDidMount() {
     this.update(Object.assign(this.props.item, this.state.config));
   }
-  move(e: any, data: any) {
+
+  move(e: DraggableEvent, data: DraggableData) {
     this.update(Object.assign(this.state.item, { x: data.x, y: data.y }));
   }
+
+  
+
   render() {
     const box: IBoxConnect = this.state.item;
     const v: any = box;
@@ -72,19 +79,20 @@ class Box extends React.Component<IProps, IState> {
             transform={`translate(${v.padding.x}, ${v.padding.y - 5 + v.height / 2} )`}
           >
             <text className="box__subject">
-              asdfasdfasdfasdfasdfasdfasfasfd
+              {v.subject}
             </text>
-            <text className="box__description">bbb</text>
+            <text className="box__description">{v.description}</text>
           </g>
           <circle className="box__input" cx="0" cy={v.cy} r="10"></circle>
           <circle className="box__output" cx={v.vw} cy={v.cy} r="10"></circle>
+          <BoxConnector x={v.vw} y={v.cy} position={ {x:v.x, y:v.y}} />
         </g>
       </Draggable>
     );
   }
 }
 
-export default connect(null, dispatch => {
+export default connect(undefined, dispatch => {
   return {
     register: (payload: IBoxConnect) => dispatch(register(payload))
   };

@@ -28,5 +28,13 @@ svg {
             stroke: black;
             stroke-width: 2;
         }
+        &__connection {
+            fill: transparent;
+        }
+    }
+    .connection {
+        stroke: black;
+        stroke-width: 2;
+        fill: transparent;
     }
 }

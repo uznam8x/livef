@@ -1,20 +1,20 @@
 import React from "react";
-import Stage from "../components/Stage";
+//import Stage from "../components/Stage";
+import Flow from "../modules/Flow";
+import boxes from "../store/modules/boxes";
+import { IBox } from "../modules/Flow/types";
 
 interface IProps {}
 interface IState {
   data: Array<any>,
 }
 class App extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      data: [],
-    };
-  }
+  state = {
+    data: [],
+  };
   componentDidMount() {
     setTimeout(()=>{
-      const data = [
+      const data: IBox[] = [
         {
           id: "a",
           subject: "toString",
@@ -52,7 +52,7 @@ class App extends React.Component<IProps, IState> {
     },1000);
   }
   componentWillMount() {}
-
+  /*
   render() {
     return (
       <div className="container-fluid full-screen">
@@ -61,6 +61,21 @@ class App extends React.Component<IProps, IState> {
           <aside id="components" className="col-2"></aside>
           <section className="col p-0">
             <Stage items={this.state.data} />
+          </section>
+          <aside id="status" className="col-2"></aside>
+        </main>
+      </div>
+    );
+  }*/
+  render() {
+    return (
+      <div className="container-fluid full-screen">
+        <header className="toolbar"></header>
+        <main className="row">
+          <aside id="components" className="col-2"></aside>
+          <section className="col p-0">
+            <Flow items={this.state.data}>
+            </Flow>
           </section>
           <aside id="status" className="col-2"></aside>
         </main>

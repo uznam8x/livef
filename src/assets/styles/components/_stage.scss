@@ -12,6 +12,7 @@ svg {
         fill: transparent;
     }
     .box {
+        cursor: move;
         &__background {
             fill: #f2f2f2;
             stroke: black;
@@ -23,18 +24,37 @@ svg {
         &__description {
             transform: translateY(22px);
         }
+        
+        &__output {
+            
+        }
         &__input, &__output{
             fill: white;
             stroke: black;
             stroke-width: 2;
         }
         &__connection {
+            cursor: crosshair;
             fill: transparent;
+        }
+        &__connection.react-draggable-dragging {
+            pointer-events: none;
         }
     }
     .connection {
         stroke: black;
         stroke-width: 2;
         fill: transparent;
+    }
+}
+
+body.react-draggable-dragging {
+    svg {
+        .box {
+            &__input:hover {
+                cursor: copy;
+                fill: pink;
+            }
+        }
     }
 }

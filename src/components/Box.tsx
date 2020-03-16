@@ -85,7 +85,7 @@ class Box extends React.Component<IProps, IState> {
           </g>
           <circle className="box__input" cx="0" cy={v.cy} r="10"></circle>
           <circle className="box__output" cx={v.vw} cy={v.cy} r="10"></circle>
-          <BoxConnector x={v.vw} y={v.cy} position={ {x:v.x, y:v.y}} />
+          <BoxConnector x={v.vw} y={v.cy} />
         </g>
       </Draggable>
     );

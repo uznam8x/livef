@@ -31,14 +31,16 @@ class Box extends Component<IProps, IState> {
     },
     ref: createRef<SVGGElement>()
   };
+
+  ready: boolean = false;
+
   move = (e: DraggableEvent, data: DraggableData) => {
     const { context, item } = this.props;
     item.x = data.x;
     item.y = data.y;
     context.actions.update(context.state.boxes, item.index, item);
   };
-
-  componentDidMount() {
+  redraw = () => {
     const content = this.state.ref?.current?.querySelector(
       ".flow__boxes__item__content"
     );
@@ -46,11 +48,25 @@ class Box extends Component<IProps, IState> {
     const width = (rect?.width || 0) + this.state.padding.x * 2;
     const height = (rect?.height || 0) + this.state.padding.y * 2;
 
-    this.setState(Object.assign(this.state, { width, height }));
-    const { context, item } = this.props;
-    item.width = width;
-    item.height = height;
-    context.actions.update(context.state.boxes, item.index, item);
+    if (!(width === this.state.width) || !(height === this.state.height)) {
+      this.setState(Object.assign(this.state, { width, height }));
+
+      const { context, item } = this.props;
+      item.width = width;
+      item.height = height;
+      context.actions.update(context.state.boxes, item.index, item);
+    }
+    if (this.ready) {
+      setTimeout(this.redraw, 1000 / 60);
+    }
+  };
+  componentWillUnmount() {
+    this.ready = false;
+  }
+
+  componentDidMount() {
+    this.ready = true;
+    this.redraw();
   }
   render() {
     return (
@@ -63,6 +79,8 @@ class Box extends Component<IProps, IState> {
             className="flow__boxes__item__rect"
             width={this.state.width}
             height={this.state.height}
+            rx="6"
+            ry="6"
           ></rect>
           <g
             className="flow__boxes__item__content"

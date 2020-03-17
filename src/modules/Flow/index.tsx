@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Connections from "./components/Connections";
 import Boxes from "./components/Boxes";
-import { IStage, IBox } from "./types";
+import { IStage, IBox, IPoint, IWire } from "./types";
 import Wire from "./components/Wire";
 import * as Context from "./context";
 import * as R from "ramda";
@@ -13,6 +13,10 @@ export interface IProps {
 export interface IState {
   stage: IStage;
   boxes: IBox[];
+  wire: {
+    from: IPoint;
+    to: IPoint;
+  }
 }
 
 class Flow extends Component<IProps, IState> {
@@ -23,7 +27,14 @@ class Flow extends Component<IProps, IState> {
       y: 0
     },
     boxes: [],
+    wire: {
+      from: { x: 0, y: 0},
+      to: { x: 0, y: 0},
+    }
   };
+
+  
+
   actions = {
     update: (list: IBox[], index: number | null = null, item: IBox | null = null) => {
       if(index !== null && index > -1 && item){
@@ -32,6 +43,23 @@ class Flow extends Component<IProps, IState> {
         this.setState({ boxes: items});
       } else {
         this.setState({ boxes: list});
+      }
+      
+    },
+    wire:(from: IPoint = {x: 0, y:0}, to: IPoint = {x: 0, y:0}) => {
+      const wire: IWire = {from, to};
+      this.setState(Object.assign(this.state, {wire}));
+    },
+    connect: (item:IBox, id: string) => {
+      item.connect = R.pipe(
+        R.append({id})
+      )(item.connect);
+      
+      const items: IBox[] = this.state.boxes;
+      if((item.index !== null || item.index !== undefined)){
+        const index: number = item.index || 0;
+        items[index] = item;
+        this.sync({items}, true);
       }
     }
   };
@@ -46,14 +74,8 @@ class Flow extends Component<IProps, IState> {
     });
   };
 
-  componentDidMount() {
-    
-    window.addEventListener("resize", this.resize);
-    this.resize();
-  }
-
-  componentWillReceiveProps(props: IProps){
-    if(this.state.boxes.length !== props.items.length){
+  sync = (props: IProps, force: boolean = false) => {
+    if(this.state.boxes.length !== props.items.length || force){
       const boxes = R.addIndex<any, any>(R.map)((v: IBox, i: number, list: any[] = []) => {
         if (!!v.connect && !!v.connect.length) {
           v.connect = R.addIndex<any, any>(R.map)((c: IBox, k: number) => {
@@ -69,6 +91,15 @@ class Flow extends Component<IProps, IState> {
   
       this.setState({boxes});
     }
+  }
+  componentDidMount() {
+    
+    window.addEventListener("resize", this.resize);
+    this.resize();
+  }
+
+  componentWillReceiveProps(props: IProps){
+    this.sync(props);
   }
 
   componentWillUnmount() {
@@ -88,7 +119,7 @@ class Flow extends Component<IProps, IState> {
           <Context.Provider
             value={{ state, actions }}
           >
-            <Wire from={{ x: 0, y: 0 }} to={{ x: 0, y: 0 }}></Wire>
+            <Wire style="wire--dashed" from={this.state.wire.from} to={this.state.wire.to}></Wire>
             <Connections></Connections>
             <Boxes></Boxes>
           </Context.Provider>

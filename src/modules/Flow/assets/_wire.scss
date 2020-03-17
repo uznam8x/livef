@@ -3,3 +3,8 @@ path.wire {
     stroke-width: 1px;
     fill: transparent;
 }
+path.wire--dashed {
+    stroke-width: 2px;
+    stroke: green;
+    stroke-dasharray: 8;
+}

@@ -1,6 +1,8 @@
 import React, { Component, createRef } from "react";
 import { IStage, IBox } from "../types";
 import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
+import Connector from "./Connector";
+import Slot from "./Slot";
 interface IProps {
   context: {
     state: {
@@ -32,7 +34,7 @@ class Box extends Component<IProps, IState> {
     ref: createRef<SVGGElement>()
   };
 
-  ready: boolean = false;
+  interval: any = null;
 
   move = (e: DraggableEvent, data: DraggableData) => {
     const { context, item } = this.props;
@@ -56,17 +58,14 @@ class Box extends Component<IProps, IState> {
       item.height = height;
       context.actions.update(context.state.boxes, item.index, item);
     }
-    if (this.ready) {
-      setTimeout(this.redraw, 1000 / 60);
-    }
   };
   componentWillUnmount() {
-    this.ready = false;
+    clearInterval(this.interval);
   }
 
   componentDidMount() {
-    this.ready = true;
     this.redraw();
+    this.interval = setInterval(this.redraw, 500);
   }
   render() {
     return (
@@ -95,8 +94,8 @@ class Box extends Component<IProps, IState> {
               {this.props.item.description}
             </text>
           </g>
-          <circle className="flow__boxes__item__input"></circle>
-          <circle className="flow__boxes__item__output"></circle>
+          <Slot item={this.props.item}></Slot>
+          <Connector item={this.props.item}></Connector>
         </g>
       </Draggable>
     );

@@ -1,0 +1,14 @@
+circle.slot {
+  fill: #eee;
+  stroke: #444;
+  stroke-width: 1px;
+}
+
+body.flow--connecting {
+  circle.slot {
+    &:hover {
+      cursor: copy;
+      fill: red;
+    }
+  }
+}

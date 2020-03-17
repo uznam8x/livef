@@ -1,0 +1,15 @@
+circle.connector {
+    fill: #eee;
+    stroke: #444;
+    stroke-width: 1px;
+}
+circle.connector--handle {
+    opacity: 0;
+    cursor: grab;
+}
+
+body.react-draggable-transparent-selection {
+    circle.connector--handle {
+        pointer-events: none;
+    }
+}

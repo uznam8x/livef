@@ -9,6 +9,10 @@ export interface ISize {
   height?: number;
 }
 
+export interface IWire {
+  [key: string]: IPoint
+}
+
 export interface IPost extends IPoint{
   subject: string;
   description: string;

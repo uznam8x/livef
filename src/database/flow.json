@@ -1,0 +1,62 @@
+[
+    {
+        "id": "ynWgdJJiAvt",
+        "subject": "Start",
+        "description": "Run method",
+        "x": 20,
+        "y": 10,
+        "param": {
+            "value": "a"
+        },
+        "connect": [
+            {
+                "id": "6o7KM4WISqb"
+            },
+            {
+                "id": "nyzSKBn3TSw"
+            }
+        ]
+    },
+    {
+        "id": "6o7KM4WISqb",
+        "subject": "parseInt",
+        "description": "string to integer",
+        "x": 400,
+        "y": 200,
+        "connect": [
+            {
+                "id": "PJNTDnoyA1-"
+            }
+        ]
+    },
+    {
+        "id": "nyzSKBn3TSw",
+        "subject": "toString",
+        "description": "asdf",
+        "x": 400,
+        "y": 400,
+        "connect": [
+            {
+                "id": "PJNTDnoyA1-"
+            }
+        ]
+    },
+    {
+        "id": "PJNTDnoyA1-",
+        "subject": "toString",
+        "description": "console.log",
+        "x": 600,
+        "y": 300,
+        "connect": [{
+            "id":"f-fSQWav0mP"
+        }]
+    },
+    {
+        "id": "f-fSQWav0mP",
+        "subject": "toString",
+        "description": "console.log",
+        "x": 800,
+        "y": 300,
+        "connect": []
+    }
+]

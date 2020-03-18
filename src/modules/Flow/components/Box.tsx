@@ -59,6 +59,12 @@ class Box extends Component<IProps, IState> {
       context.actions.update(context.state.boxes, item.index, item);
     }
   };
+
+  click = () => {
+    // TODO: run method
+
+  }
+
   componentWillUnmount() {
     clearInterval(this.interval);
   }
@@ -88,7 +94,7 @@ class Box extends Component<IProps, IState> {
             `}
           >
             <text className="flow__boxes__item__subject fs--large">
-              {this.props.item.subject}
+              {this.props.item.id}
             </text>
             <text className="flow__boxes__item__description">
               {this.props.item.description}

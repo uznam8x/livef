@@ -1,0 +1,64 @@
+{
+  "name": "livef-client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/async": "^3.0.8",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/ramda": "^0.26.44",
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
+    "@types/react-redux": "^7.1.7",
+    "async": "^3.2.0",
+    "autoprefixer": "^9.7.4",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
+    "events": "^3.1.0",
+    "fibers": "^4.0.2",
+    "node-sass": "^4.13.1",
+    "postcss-cli": "^7.1.0",
+    "ramda": "^0.27.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-draggable": "^4.2.0",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.0",
+    "redux": "^4.0.5",
+    "tailwindcss": "^1.2.0",
+    "typescript": "~3.7.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "npm run build:css && react-scripts build",
+    "build:css": "npx tailwindcss build src/assets/libs/tailwind/style.css -o src/assets/libs/tailwind/dist/style.css",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "scenario": "nodemon --ignore 'scenario/test/*.js' --exec babel-node --presets=env ./scenario/index.js"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^2.0.2"
+  },
+  "proxy": "http://localhost:9000"
+}

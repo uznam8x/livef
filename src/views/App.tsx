@@ -1,6 +1,7 @@
 import React from "react";
 //import Stage from "../components/Stage";
 import Flow from "../modules/Flow";
+import Pods from "../modules/Pods";
 import { IBox } from "../modules/Flow/types";
 import Data from "../database/flow.json";
 interface IProps {}
@@ -22,15 +23,13 @@ class App extends React.Component<IProps, IState> {
   
   render() {
     return (
-      <div className="container-fluid full-screen">
+      <div className="container max-w-none h-full">
+
         <header className="toolbar"></header>
-        <main className="row">
-          <aside id="components" className="col-2"></aside>
-          <section className="col p-0">
-            <Flow items={this.state.data}>
-            </Flow>
-          </section>
-          <aside id="status" className="col-2"></aside>
+        <main className="flex">
+          <Pods className="w-2/12"></Pods>
+          <Flow items={this.state.data}></Flow>
+          <aside id="status" className="w-2/12"></aside>
         </main>
       </div>
     );

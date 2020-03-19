@@ -14,10 +14,12 @@
     "@types/react-dom": "^16.9.5",
     "@types/react-redux": "^7.1.7",
     "async": "^3.2.0",
+    "autoprefixer": "^9.7.4",
     "bootstrap": "^4.4.1",
     "events": "^3.1.0",
     "fibers": "^4.0.2",
     "node-sass": "^4.13.1",
+    "postcss-cli": "^7.1.0",
     "ramda": "^0.27.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
@@ -26,14 +28,16 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "redux": "^4.0.5",
+    "tailwindcss": "^1.2.0",
     "typescript": "~3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "npm run build:css && react-scripts build",
+    "build:css": "npx tailwindcss build src/assets/libs/tailwind/style.css -o src/assets/libs/tailwind/dist/style.css",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "scenario": "nodemon --exec babel-node --presets=env ./scenario/index.js"
+    "scenario": "nodemon --ignore 'scenario/test/*.js' --exec babel-node --presets=env ./scenario/index.js"
   },
   "eslintConfig": {
     "extends": "react-app"

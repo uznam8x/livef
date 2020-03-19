@@ -28,7 +28,7 @@ class Box extends Component<IProps, IState> {
     width: 0,
     height: 0,
     padding: {
-      x: 14,
+      x: 20,
       y: 14
     },
     ref: createRef<SVGGElement>()

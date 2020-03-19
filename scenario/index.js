@@ -7,7 +7,7 @@ const prc = [];
 
 const add = (args, next) => {
   const { value } = args;
-  setTimeout(next, Math.random() * 100, null, { value: value + "a" });
+  setTimeout(next, 0, null, { value: value + "a" });
 };
 
 const data = R.map(v => {
@@ -61,6 +61,20 @@ const exec = R.curry((comp, args, node, next) => {
   });
 });
 
+/*
 exec(find("ynWgdJJiAvt"), {}, {}, (err, ans) => {
   console.log(ans);
 });
+*/
+
+import fs from "fs";
+import path from "path";
+function read(){
+    //const js = fs.readFileSync(path.resolve(__dirname, "./test/dynamic.js")).toString("utf8");
+    const file = path.resolve(__dirname, "./test/dynamic.js");
+    import(`${file}`).then( res => {
+        console.log(res);
+    });
+}
+read();
+//setInterval(read, 1000);

@@ -1,5 +1,5 @@
 circle.slot {
-  fill: #eee;
+  fill: #CACACF;
   stroke: #444;
   stroke-width: 1px;
 }
@@ -8,7 +8,7 @@ body.flow--connecting {
   circle.slot {
     &:hover {
       cursor: copy;
-      fill: #28a745;
+      fill: #1C80EC;
     }
   }
 }

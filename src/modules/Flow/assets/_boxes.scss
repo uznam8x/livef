@@ -2,22 +2,24 @@
     &__item {
         cursor: move;
         &__rect {
-            fill: #f9f9f9;
-            stroke: #999;
+            fill: #343538;
+            stroke: #444548;
             stroke-width: 1px;
             transition: fill 0.2s ease-out;
             &:hover{
-                fill: #e9e9e9;
+                fill: #242528;
             }
         }
         &__content {
             pointer-events: none;
         }
         &__subject {
-            font-size: 18px;
+            fill: #D5D6D6;
+            font-size: 16px;
             font-weight: 300;
         }
         &__description { 
+            fill: #A3A4A5;
             font-size: 14px;
             transform: translateY(20px);
         }

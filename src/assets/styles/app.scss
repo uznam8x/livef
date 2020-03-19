@@ -1,4 +1,5 @@
-@import "~bootstrap/scss/bootstrap.scss";
+//@import "~bootstrap/scss/bootstrap.scss";
+@import "../libs/tailwind/dist//style.css";
 @import "./layout";
 html, body, #root{
     width: 100%;

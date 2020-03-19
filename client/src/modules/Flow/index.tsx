@@ -6,6 +6,8 @@ import Wire from "./components/Wire";
 import * as Context from "./context";
 import * as R from "ramda";
 import "./assets/flow.scss";
+import axios from "axios";
+
 export interface IProps {
   items: IBox[];
 }
@@ -16,7 +18,7 @@ export interface IState {
   wire: {
     from: IPoint;
     to: IPoint;
-  }
+  };
 }
 
 class Flow extends Component<IProps, IState> {
@@ -28,39 +30,46 @@ class Flow extends Component<IProps, IState> {
     },
     boxes: [],
     wire: {
-      from: { x: 0, y: 0},
-      to: { x: 0, y: 0},
+      from: { x: 0, y: 0 },
+      to: { x: 0, y: 0 }
     }
   };
 
-  
-
+  timeout: any = null;
   actions = {
-    update: (list: IBox[], index: number | null = null, item: IBox | null = null) => {
-      if(index !== null && index > -1 && item){
-        const items:IBox[] = list.concat([]);
+    update: (
+      list: IBox[],
+      index: number | null = null,
+      item: IBox | null = null
+    ) => {
+      let boxes: IBox[] = list;
+      if (index !== null && index > -1 && item) {
+        const items: IBox[] = list.concat([]);
         items[index] = item;
-        this.setState({ boxes: items});
-      } else {
-        this.setState({ boxes: list});
+        boxes = items;
       }
-      
+
+      this.setState({ boxes });
+
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(this.submit, 300, item);
     },
-    wire:(from: IPoint = {x: 0, y:0}, to: IPoint = {x: 0, y:0}) => {
-      const wire: IWire = {from, to};
-      this.setState(Object.assign(this.state, {wire}));
+
+    wire: (from: IPoint = { x: 0, y: 0 }, to: IPoint = { x: 0, y: 0 }) => {
+      const wire: IWire = { from, to };
+      this.setState({ wire });
     },
-    connect: (item:IBox, id: string) => {
-      item.connect = R.pipe(
-        R.append({id})
-      )(item.connect);
-      
+
+    connect: (item: IBox, id: string) => {
       const items: IBox[] = this.state.boxes;
-      if((item.index !== null || item.index !== undefined)){
-        const index: number = item.index || 0;
-        items[index] = item;
-        this.sync({items}, true);
-      }
+      const connect = R.pipe(
+        R.map((v: IBox) => ({ id: v.id })),
+        R.append({ id }),
+        R.uniq
+      )(item.connect);
+
+      item.connect = R.map((v: any) => this.find(items, v.id))(connect);
+      this.actions.update(items, item.index, item);
     }
   };
 
@@ -74,31 +83,89 @@ class Flow extends Component<IProps, IState> {
     });
   };
 
-  sync = (props: IProps, force: boolean = false) => {
-    if(this.state.boxes.length !== props.items.length || force){
-      const boxes = R.addIndex<any, any>(R.map)((v: IBox, i: number, list: any[] = []) => {
+  find = (list: IBox[], id: string): IBox | null => {
+    const xid = R.findIndex(R.propEq("id", id))(list);
+    return xid > -1 ? list[xid] : null;
+  };
+
+  submit = (item: IBox) => {
+    const param = R.pipe(
+      JSON.stringify,
+      JSON.parse,
+      R.map( (v: any) => ({
+        id: v.id,
+          subject: v.subject,
+          description: v.description,
+          param: v.param || {},
+          x: v.x,
+          y: v.y,
+          connect: R.pipe(R.map((c: IBox) => ({ id: c.id })))(v.connect)
+      })),
+      R.head
+    )([item]);
+
+
+    axios({
+      method: "put",
+      url: `/api/flow/${param.id}`,
+      data: param
+    }).then(res => {});
+  }
+
+  sync = (props: IProps) => {
+    //if (this.state.boxes.length !== props.items.length) {
+    const boxes = R.addIndex<any, any>(R.map)(
+      (v: IBox, i: number, list: any[] = []) => {
         if (!!v.connect && !!v.connect.length) {
-          v.connect = R.addIndex<any, any>(R.map)((c: IBox, k: number) => {
-            const xid = R.findIndex(R.propEq("id", c.id))(list);
-            return (xid > -1) ? list[xid] : c;
-          })(v.connect);
+          v.connect = R.pipe(
+            R.map((c: IBox) => ({ id: c.id })),
+            R.uniq
+          )(v.connect);
+
+          v.connect = R.map((v: IBox) => this.find(list, v.id))(v.connect);
         }
+
         v.index = i;
         v.width = v.width || 0;
         v.height = v.height || 0;
         return v;
-      })(props.items);
-  
-      this.setState({boxes});
-    }
-  }
+      }
+    )(props.items);
+
+    this.setState({ boxes });
+
+    /*
+      if (force) {
+        const param = R.pipe(
+          JSON.stringify,
+          JSON.parse,
+          R.map((v: any) => {
+            return {
+              id: v.id,
+              subject: v.subject,
+              description: v.description,
+              param: v.param || {},
+              x: v.x,
+              y: v.y,
+              connect: R.pipe(R.map((c: IBox) => ({ id: c.id })))(v.connect)
+            };
+          })
+        )(boxes);
+
+        axios({
+          method: "put",
+          url: "/api/flow",
+          data: param
+        }).then(res => {});
+      }*/
+    //}
+  };
   componentDidMount() {
-    
     window.addEventListener("resize", this.resize);
     this.resize();
   }
 
-  componentWillReceiveProps(props: IProps){
+  componentWillReceiveProps(props: IProps) {
     this.sync(props);
   }
 
@@ -108,7 +175,6 @@ class Flow extends Component<IProps, IState> {
 
   render() {
     const { state, actions } = this;
-
     return (
       <svg
         ref={this.state.stage.ref}
@@ -116,10 +182,12 @@ class Flow extends Component<IProps, IState> {
         data-x={this.state.stage.x}
       >
         <g className="flow__stage">
-          <Context.Provider
-            value={{ state, actions }}
-          >
-            <Wire style="wire--dashed" from={this.state.wire.from} to={this.state.wire.to}></Wire>
+          <Context.Provider value={{ state, actions }}>
+            <Wire
+              style="wire--dashed"
+              from={this.state.wire.from}
+              to={this.state.wire.to}
+            ></Wire>
             <Connections></Connections>
             <Boxes></Boxes>
           </Context.Provider>

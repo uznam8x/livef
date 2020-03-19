@@ -42,6 +42,9 @@ class Box extends Component<IProps, IState> {
     item.y = data.y;
     context.actions.update(context.state.boxes, item.index, item);
   };
+
+  stop = (e: DraggableEvent, data: DraggableData) => {};
+
   redraw = () => {
     const content = this.state.ref?.current?.querySelector(
       ".flow__boxes__item__content"
@@ -77,6 +80,7 @@ class Box extends Component<IProps, IState> {
     return (
       <Draggable
         onDrag={this.move}
+        onStop={this.stop}
         defaultPosition={{ x: this.props.item.x, y: this.props.item.y }}
       >
         <g ref={this.state.ref} className="flow__boxes__item">

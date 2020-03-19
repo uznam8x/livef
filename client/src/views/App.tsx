@@ -13,7 +13,10 @@ class App extends React.Component<IProps, IState> {
   };
 
   componentDidMount() {
-    axios(api.flow as any).then((res: any) => this.setState({ data: res.data }));
+    axios({
+      method:"get",
+      url: "/api/flow"
+    }).then((res: any) => this.setState({ data: res.data }));
   }
 
   componentWillMount() {}

@@ -10,7 +10,8 @@ export interface ISize {
 }
 
 export interface IWire {
-  [key: string]: IPoint
+  from: IPoint,
+  to: IPoint,
 }
 
 export interface IPost extends IPoint{

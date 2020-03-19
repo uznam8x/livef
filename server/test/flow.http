@@ -1,0 +1,25 @@
+GET http://127.0.0.1:9000/api/flow HTTP/1.1
+
+###
+
+PUT http://127.0.0.1:9000/api/flow/ynWgdJJiAvt HTTP/1.1
+content-type: application/json
+
+{
+    "id": "ynWgdJJiAvt",
+    "subject": "Start",
+    "description": "Run method",
+    "x": 20,
+    "y": 10,
+    "param": {
+        "value": "a"
+    },
+    "connect": [
+        {
+            "id": "6o7KM4WISqb"
+        },
+        {
+            "id": "nyzSKBn3TSw"
+        }
+    ]
+}

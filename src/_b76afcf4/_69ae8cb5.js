@@ -6,5 +6,5 @@ export default (args, next) => {
     .map((v) => props[v] || '')
     .join('')}</html>`;
 
-  next(null, { ...args, props: { html } });
+  next(null, { html });
 };

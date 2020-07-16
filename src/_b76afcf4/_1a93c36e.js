@@ -4,5 +4,5 @@ export default (args, next) => {
     ['title', 'meta', 'link', 'style', 'script'].map((v) => node(args.props[v]))
   )}</head>`;
 
-  next(null, { ...args, props: { head } });
+  next(null, { head });
 };

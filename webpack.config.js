@@ -1,20 +1,13 @@
 const path = require('path');
 module.exports = {
   mode: 'production',
-  entry: './_b76afcf4/index.js',
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: ['babel-loader'],
-      },
-    ],
+    rules: [],
   },
 
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dest'),
     filename: 'index.js',
   },
-  target: 'node',
+  target: 'web',
 };

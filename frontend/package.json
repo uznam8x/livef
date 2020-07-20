@@ -21,6 +21,7 @@
     },
     "homepage": "",
     "dependencies": {
+        "@adonisjs/websocket-client": "^1.0.9",
         "gojs": "^2.1.20",
         "normalize.css": "^8.0.0"
     },

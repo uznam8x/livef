@@ -2,15 +2,19 @@ const model = {
   _b76afcf4: {
     type: 'group',
     entry: '_4c347da6',
-    subject: 'html',
-    description: '',
+    node: {
+      subject: 'html',
+      description: '',
+    },
   },
   _4c347da6: {
     type: 'task',
     attrs: {},
+    node: {
+      subject: 'html',
+      description: '',
+    },
     category: 'node',
-    subject: 'Output',
-    description: '',
     group: '_b76afcf4',
     linkage: ['_69ae8cb5'],
   },

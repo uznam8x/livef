@@ -20,6 +20,7 @@ const providers = [
   "@adonisjs/session/providers/SessionProvider",
   "@adonisjs/auth/providers/AuthProvider",
   "@adonisjs/websocket/providers/WsProvider",
+  "@adonisjs/drive/providers/DriveProvider",
 ];
 
 /*

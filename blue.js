@@ -1,6 +1,7 @@
 const model = {
   _b76afcf4: {
     type: 'group',
+    children: [],
     entry: '_4c347da6',
     node: {
       subject: 'html',
@@ -15,7 +16,6 @@ const model = {
       description: '',
     },
     category: 'node',
-    group: '_b76afcf4',
     linkage: ['_69ae8cb5'],
   },
   _69ae8cb5: {
@@ -171,7 +171,7 @@ const createPipeline = (args, next) => {
     return str;
   };
 
-  const pipeline = flow(args.value, args.value['entry']);
+  const pipeline = flow(args.value, '_4c347da6');
   next(null, { ...args, pipeline });
 };
 

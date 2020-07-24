@@ -8,8 +8,11 @@ import attrs from '../utils/attrs';
 };
  */
 
-export default {
-  add: () => {},
-  remove: () => {},
-  update: () => {},
+export default class Node{
+  constructor(group){
+    
+  }
+  add(){};
+  remove(){};
+  update(){};
 };
